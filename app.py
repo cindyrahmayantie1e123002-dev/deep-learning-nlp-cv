@@ -1,9 +1,20 @@
 import streamlit as st
+from transformers import pipeline
 
-st.title("Deep Learning NLP App")
-st.write("Aplikasi berhasil jalan 🎉")
+# Title
+st.title("📰 Deep Learning NLP App")
+st.write("Prediksi Kategori Teks Berita")
 
-teks = st.text_input("Masukkan teks:")
+# Load model (pakai model publik dulu biar pasti jalan)
+classifier = pipeline("text-classification")
 
+# Input teks
+text = st.text_area("Masukkan teks:")
+
+# Tombol prediksi
 if st.button("Prediksi"):
-    st.success("Model siap! (nanti disambung ke model kamu)")
+    if text.strip() != "":
+        result = classifier(text)
+        st.success(f"Hasil prediksi: {result[0]['label']}")
+    else:
+        st.warning("Masukkan teks dulu!")
